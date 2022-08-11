@@ -32,13 +32,13 @@ export default function HomeScreen() {
     fetchData();
   }, []);
 
-  const displayStars = (num) => {
+  const displayStars = (num, index) => {
     const tab = [];
     for (let i = 0; i < 5; i++) {
       if (i < num) {
-        tab.push(<AntDesign name="star" size={26} color="gold" />);
+        tab.push(<AntDesign key={i} name="star" size={26} color="gold" />);
       } else {
-        tab.push(<AntDesign name="star" size={26} color="grey" />);
+        tab.push(<AntDesign key={i} name="star" size={26} color="grey" />);
       }
     }
     return tab;
@@ -54,10 +54,8 @@ export default function HomeScreen() {
         <FlatList
           data={data}
           keyExtractor={({ _id }) => {
-            console.log(_id, "test");
             return _id;
           }}
-          keyExtractor={(item) => item._id}
           renderItem={({ item }) => {
             return (
               <TouchableOpacity

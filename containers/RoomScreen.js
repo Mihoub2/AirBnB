@@ -33,20 +33,14 @@ export default function RoomScreen({ route }) {
     };
     fetchData();
   }, []);
-  // const markers = [
-  //   {
-  //     latitude: data.location[1],
-  //     longitude: data.location[0],
-  //   },
-  //   console.log(latitude),
-  // ];
+
   const displayStars = (num) => {
     const tab = [];
     for (let i = 0; i < 5; i++) {
       if (i < num) {
-        tab.push(<AntDesign name="star" size={26} color="gold" />);
+        tab.push(<AntDesign key={i} name="star" size={26} color="gold" />);
       } else {
-        tab.push(<AntDesign name="star" size={26} color="grey" />);
+        tab.push(<AntDesign key={i} name="star" size={26} color="grey" />);
       }
     }
     return tab;

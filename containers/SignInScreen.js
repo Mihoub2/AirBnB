@@ -22,8 +22,8 @@ export default function SignInScreen({ setToken }) {
   const height = Dimensions.get("window").height;
 
   const navigation = useNavigation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("debache.mihoub@gmail.com");
+  const [password, setPassword] = useState("azerty");
   const [errorMessage, setErrorMessage] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,7 +48,6 @@ export default function SignInScreen({ setToken }) {
         }
       );
 
-      console.log(response.data);
       setIsLoading(true);
       setToken(response.data.token);
     } catch (error) {

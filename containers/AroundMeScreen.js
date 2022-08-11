@@ -1,21 +1,19 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/core";
 
 export default function AroundMeScreen() {
+  const navigation = useNavigation();
+
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
 
-  const [coords, setCoords] = useState([
-    // {
-    //   latitude: latitude,
-    //   longitude: longitude,
-    // },
-  ]);
+  const [coords, setCoords] = useState([]);
 
   useEffect(() => {
     const getPermission = async () => {
@@ -25,21 +23,20 @@ export default function AroundMeScreen() {
         if (status === "granted") {
           const location = await Location.getCurrentPositionAsync();
 
-          //   const response = await axios.get(
-          //     `https://express-airbnb-api.herokuapp.com/rooms/around?longitude=${coords.longitude}&latitude=${coords.latitude}`
-          //   );
           const response = await axios.get(
-            `https://express-airbnb-api.herokuapp.com/rooms/around?`
+            `https://express-airbnb-api.herokuapp.com/rooms/around?=latitude${location.coords.latitude}&=longitude${location.coords.longitude}`
           );
-          setLatitude(location.coords.latitude);
-          setLongitude(location.coords.longitude);
-          console.log(latitude);
-          console.log(longitude);
+
+          setLatitude(response.data[0].location[1]);
+          setLongitude(response.data[0].location[0]);
+
+          setCoords(response.data);
+          // console.log(response.data);
+          setIsLoading(false);
         } else {
           alert("Permission refusée");
           setError(true);
         }
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -64,21 +61,24 @@ export default function AroundMeScreen() {
             longitudeDelta: 0.2,
           }}
           style={styles.mapView}
+          provider={PROVIDER_GOOGLE}
         >
-          {/* {coords.map((elem, index) => {
-            console.log(elem);
+          {coords.map((elem, index) => {
             return (
               <MapView.Marker
+                onPress={() => {
+                  navigation.navigate("Room", { id: elem._id });
+                  // console.log(elem._id);
+                }}
+                tappable={true}
                 key={index}
                 coordinate={{
-                  latitude: elem.latitude,
-                  longitude: elem.longitude,
+                  latitude: elem.location[1],
+                  longitude: elem.location[0],
                 }}
               />
             );
-          })} */}
-          <Text>{latitude}</Text>
-          <Text>{longitude}</Text>
+          })}
         </MapView>
       )}
     </View>
@@ -86,6 +86,10 @@ export default function AroundMeScreen() {
 }
 
 const styles = StyleSheet.create({
+  navigation: {
+    // width: 100,
+    // height: 100,
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",

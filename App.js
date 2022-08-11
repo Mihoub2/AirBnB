@@ -137,7 +137,7 @@ export default function App() {
                     )}
                   </Tab.Screen>
                   <Tab.Screen
-                    name="AroundMe"
+                    name="HereAroundMe"
                     options={{
                       tabBarLabel: "AroundMe",
                       tabBarIcon: ({ color, size }) => (
@@ -157,7 +157,7 @@ export default function App() {
                             title: "Aroundme",
                           }}
                         >
-                          {() => <AroundMeScreen setToken={setToken} />}
+                          {(props) => <AroundMeScreen {...props} />}
                         </Stack.Screen>
                       </Stack.Navigator>
                     )}
