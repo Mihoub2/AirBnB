@@ -107,7 +107,7 @@ export default function SignInScreen({ setToken }) {
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      navigation.navigate("home");
+                      navigation.navigate("Signup");
                     }}
                     style={styles.botTextSignin}
                   >

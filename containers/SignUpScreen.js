@@ -46,8 +46,7 @@ export default function SignInScreen({ setToken }) {
       console.log(response.data);
 
       alert("Account created");
-      const userToken = "user-token";
-      setToken(userToken);
+      setToken(response.data.token);
     } catch (error) {
       console.log(error.response.data);
       if (error.response.data) {

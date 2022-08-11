@@ -1,20 +1,18 @@
 import { useNavigation } from "@react-navigation/core";
 import {
-  Button,
   Text,
   View,
   FlatList,
   Image,
   StyleSheet,
   ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { ImageBackground, TouchableOpacity } from "react-native-web";
-import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function HomeScreen({}) {
+export default function HomeScreen() {
   const navigation = useNavigation();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -34,10 +32,24 @@ export default function HomeScreen({}) {
     fetchData();
   }, []);
 
+  const displayStars = (num) => {
+    const tab = [];
+    for (let i = 0; i < 5; i++) {
+      if (i < num) {
+        tab.push(<AntDesign name="star" size={26} color="gold" />);
+      } else {
+        tab.push(<AntDesign name="star" size={26} color="grey" />);
+      }
+    }
+    return tab;
+  };
+
   return (
-    <View>
+    <View style={{ backgroundColor: "white" }}>
       {isLoading === true ? (
-        <ActivityIndicator size="large" color="#00ff00" />
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <ActivityIndicator size="large" color="#00ff00" />
+        </View>
       ) : (
         <FlatList
           data={data}
@@ -46,47 +58,50 @@ export default function HomeScreen({}) {
           }}
           renderItem={({ item }) => {
             return (
-              <View style={styles.viewImage}>
-                <Image
-                  style={styles.offerImage}
-                  source={{
-                    uri: item.photos[0].url,
-                  }}
-                />
-                <View style={styles.botOffer}>
-                  <View style={styles.viewTitleAndRate}>
-                    <Text
-                      onPress={() => {
-                        navigation.navigate("Room");
-                      }}
-                      style={styles.offerTitle}
-                      numberOfLines={1}
-                      ellipsizeMode={"tail"}
-                    >
-                      {item.title}
-                    </Text>
-                    <View style={styles.rateAndReviews}>
-                      <Text>
-                        <AntDesign name="star" size={26} color="gold" />*
-                        {item.ratingValue}
+              <TouchableOpacity
+                style={styles.viewImage}
+                onPress={() => {
+                  navigation.navigate("Room", { id: item._id });
+                }}
+              >
+                <View>
+                  <Image
+                    style={styles.offerImage}
+                    source={{
+                      uri: item.photos[0].url,
+                    }}
+                  />
+                  <View style={styles.botOffer}>
+                    <View style={styles.viewTitleAndRate}>
+                      <Text
+                        style={styles.offerTitle}
+                        numberOfLines={1}
+                        ellipsizeMode={"tail"}
+                      >
+                        {item.title}
                       </Text>
-                      <Text style={styles.reviews}>{item.reviews} reviews</Text>
+                      <View style={styles.rateAndReviews}>
+                        <Text>{displayStars(item.ratingValue)}</Text>
+                        <Text style={styles.reviews}>
+                          {item.reviews} reviews
+                        </Text>
+                      </View>
+                    </View>
+                    <View>
+                      <Image
+                        style={styles.userImage}
+                        source={{
+                          uri: item.user.account.photo.url,
+                        }}
+                      />
                     </View>
                   </View>
-                  <View>
-                    <Image
-                      style={styles.userImage}
-                      source={{
-                        uri: item.user.account.photo.url,
-                      }}
-                    />
+
+                  <View style={styles.viewPrice}>
+                    <Text style={styles.price}>{item.price}€</Text>
                   </View>
                 </View>
-
-                <View style={styles.viewPrice}>
-                  <Text style={styles.price}>{item.price}€</Text>
-                </View>
-              </View>
+              </TouchableOpacity>
             );
           }}
         />
@@ -111,28 +126,31 @@ const styles = StyleSheet.create({
   userImage: {
     width: 70,
     height: 70,
-    borderRadius: "50%",
+    borderRadius: 50,
+    marginTop: 10,
   },
   viewTitleAndRate: {
     justifyContent: "space-around",
-
+    marginTop: 10,
     width: "70%",
   },
   viewImage: {
-    justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    marginTop: 10,
+    marginBottom: 20,
+    flex: "1",
+    backgroundColor: "white",
   },
   offerTitle: { fontSize: 16 },
   offerImage: {
     height: 160,
-    width: "90%",
-    justifyContent: "center",
     alignItems: "center",
-    borderColor: "white",
     position: "relative",
+    marginTop: 10,
   },
   viewPrice: {
+    marginTop: 110,
     position: "absolute",
     borderColor: "black",
     backgroundColor: "black",
