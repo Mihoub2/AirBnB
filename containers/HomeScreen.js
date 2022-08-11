@@ -53,9 +53,11 @@ export default function HomeScreen() {
       ) : (
         <FlatList
           data={data}
-          keyExtractor={(elem, index) => {
-            return index;
+          keyExtractor={({ _id }) => {
+            console.log(_id, "test");
+            return _id;
           }}
+          keyExtractor={(item) => item._id}
           renderItem={({ item }) => {
             return (
               <TouchableOpacity
