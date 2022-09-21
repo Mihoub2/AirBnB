@@ -127,6 +127,7 @@ export default function SignInScreen({ setToken }) {
 const styles = StyleSheet.create({
   total: {
     backgroundColor: "white",
+    flex: 1,
   },
   error: {
     color: "red",
@@ -181,6 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
+    padding: 20,
   },
   logo: {
     height: 200,

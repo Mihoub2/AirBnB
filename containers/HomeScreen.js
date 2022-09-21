@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/native";
 import {
   Text,
   View,
@@ -45,7 +45,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <View style={styles.viewImage}>
       {isLoading === true ? (
         <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator size="large" color="#00ff00" />
@@ -53,14 +53,12 @@ export default function HomeScreen() {
       ) : (
         <FlatList
           data={data}
-          keyExtractor={({ _id }) => {
-            return _id;
-          }}
+          keyExtractor={(item) => String(item._id)}
           renderItem={({ item }) => {
             return (
               <TouchableOpacity
-                style={styles.viewImage}
                 onPress={() => {
+                  // console.log("okééé leeeeez go");
                   navigation.navigate("Room", { id: item._id });
                 }}
               >
@@ -139,8 +137,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 10,
     marginBottom: 20,
-    flex: "1",
-    backgroundColor: "white",
+    flex: 1,
   },
   offerTitle: { fontSize: 16 },
   offerImage: {

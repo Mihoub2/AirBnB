@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./containers/HomeScreen";
+import Header from "./components/Header";
 import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import AroundMeScreen from "./containers/AroundMeScreen";
@@ -93,19 +94,8 @@ export default function App() {
                           name="Home"
                           options={{
                             headerShown: false,
-                            headerBackground: () => (
-                              <Image
-                                style={{
-                                  marginLeft: 80,
-                                  marginTop: 20,
-                                  // marginBottom: 30,
-                                  width: 200,
-                                  height: 50,
-                                }}
-                                source={require("./assets/logo.png")}
-                                resizeMode="contain"
-                              />
-                            ),
+
+                            headerBackground: () => <Header />,
                           }}
                         >
                           {(props) => <HomeScreen {...props} />}
@@ -115,8 +105,6 @@ export default function App() {
                           name="Room"
                           options={{
                             headerLeft: () => <ArrowBack />,
-
-                            headerShown: false,
                             headerBackground: () => (
                               <Image
                                 style={{
@@ -158,6 +146,28 @@ export default function App() {
                           }}
                         >
                           {(props) => <AroundMeScreen {...props} />}
+                        </Stack.Screen>
+                        <Stack.Screen
+                          name="Room"
+                          options={{
+                            // headerLeft: () => <ArrowBack />,
+
+                            headerShown: false,
+                            //   headerBackground: () => (
+                            //     <Image
+                            //       style={{
+                            //         marginLeft: 80,
+                            //         marginTop: 20,
+                            //         width: 200,
+                            //         height: 50,
+                            //       }}
+                            //       source={require("./assets/logo.png")}
+                            //       resizeMode="contain"
+                            //     />
+                            //   ),
+                          }}
+                        >
+                          {(props) => <RoomScreen {...props} />}
                         </Stack.Screen>
                       </Stack.Navigator>
                     )}
